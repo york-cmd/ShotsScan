@@ -1,0 +1,5 @@
+{"name":"www.ctvpost.com.","type":"A","class":"IN","status":"NOERROR","data":{"answers":[{"ttl":537,"type":"A","class":"IN","name":"www.ctvpost.com.","data":"211.156.195.121"}]},"resolver":"223.5.5.5:53"}
+{"name":"bj.ctvpost.com.","type":"A","class":"IN","status":"NOERROR","data":{"answers":[{"ttl":600,"type":"A","class":"IN","name":"bj.ctvpost.com.","data":"211.156.195.121"}]},"resolver":"223.5.5.5:53"}
+{"name":"v.ctvpost.com.","type":"A","class":"IN","status":"NOERROR","data":{"answers":[{"ttl":600,"type":"A","class":"IN","name":"v.ctvpost.com.","data":"211.156.195.120"}]},"resolver":"223.5.5.5:53"}
+{"name":"make.ctvpost.com.","type":"A","class":"IN","status":"NOERROR","data":{"answers":[{"ttl":600,"type":"A","class":"IN","name":"make.ctvpost.com.","data":"211.156.195.119"}]},"resolver":"114.114.114.114:53"}
+{"name":"ctvpost.com.","type":"A","class":"IN","status":"NOERROR","data":{"answers":[{"ttl":510,"type":"A","class":"IN","name":"ctvpost.com.","data":"211.156.195.121"}]},"resolver":"114.114.114.114:53"}

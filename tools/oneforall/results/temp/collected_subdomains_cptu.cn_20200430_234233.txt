@@ -1,0 +1,10 @@
+cptu.cn
+www.cptu.cn
+survey.cptu.cn
+mail6.access.cptu.cn
+mars.cptu.cn
+pics.cptu.cn
+billing.cptu.cn
+proxy.cptu.cn
+mail.cptu.cn
+ftp.cptu.cn

@@ -1,0 +1,8 @@
+key = ''
+website = ''
+get_domain_url = website + 'index.php/api/Task/getDomain'
+put_subdomain_url = website + 'index.php/api/Task/putSubdomain'
+get_ip_url = website + 'index.php/api/Task/getIp'
+put_port_url = website + 'index.php/api/Task/putPort'
+get_subdomain_url = website + 'index.php/api/Task/getSubdomain'
+put_alive_url = website + 'index.php/api/Task/putAlive'

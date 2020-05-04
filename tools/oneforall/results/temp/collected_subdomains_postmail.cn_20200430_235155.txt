@@ -1,0 +1,7 @@
+postmail.cn
+www.postmail.cn
+isfms.postmail.cn
+pc29.postmail.cn
+cisco.postmail.cn
+pc2.postmail.cn
+smtp.postmail.cn
