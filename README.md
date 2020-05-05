@@ -1,9 +1,9 @@
 # ShotsScan
-> 子域名配置
+> 子域名扫描配置
 
 tools/oneforall/config.py
 
-> 子域名API配置
+> 子域名扫描API配置
 
 tools/oneforall/api.py
 
