@@ -1,5 +1,5 @@
 from tools.oneforall import oneforall
-from lib.api import get, put_subdomain
+from lib.api import get, put_subdomain, get_ip_info
 from tools.oneforall.config import logger
 import time
 import datetime
@@ -13,9 +13,21 @@ def scan(domain):
         for i in app.data:
             subdomain = i['cname']
             subdomain_ip = i['content']
-            city = ''
             if subdomain:
-                domain_data['data'].append({'subdomain': subdomain, 'subdomain_ip': subdomain_ip, 'city': city})
+                ip_info = get_ip_info(subdomain_ip)
+                if isinstance(ip_info, dict):
+                    city = ip_info['city']
+                    is_private = ip_info['is_private']
+                    is_cdn = ip_info['is_cdn']
+                else:
+                    raise Exception(ip_info)
+                domain_data['data'].append({
+                    'subdomain': subdomain,
+                    'subdomain_ip': subdomain_ip,
+                    'city': city,
+                    'is_private': is_private,
+                    'is_cdn': is_cdn
+                })
         domain_data['code'] = 1
     except Exception as e:
         domain_data['code'] = 0

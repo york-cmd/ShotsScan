@@ -1,6 +1,11 @@
 import requests
 import config
 import json
+import geoip2.database
+import ipdb
+import ipaddress
+import socket
+from pathlib import Path
 
 
 def get(target):
@@ -57,3 +62,42 @@ def put_subdomain(domain_data):
     except Exception as e:
         return e
 
+
+def get_ip_info(ip, subdomian=''):
+    ip_info = {'is_cdn': False, 'is_private': False, 'city': ''}
+    try:
+        if ip == '' and subdomian:
+            addr = socket.getaddrinfo(subdomian, 'http')
+            ip = addr[0][4][0]
+            ip_info['ip'] = ip
+        ip_db = ipdb.City(Path(__file__).parent.joinpath('ipdata.ipdb'))
+        city_info = ip_db.find(ip, 'CN')
+        ip_info['city'] = city_info[0] + city_info[1] + city_info[2] + city_info[3] + city_info[4]
+        if ipaddress.ip_address(ip).is_private:
+            ip_info['is_private'] = True
+            return ip_info
+        for cdn in config.cdn_list:
+            if ipaddress.ip_address(ip) in ipaddress.ip_network(cdn):
+                ip_info['is_cdn'] = True
+
+        with geoip2.database.Reader(Path(__file__).parent.joinpath('GeoLite2-ASN.mmdb').resolve()) as reader:
+            response = reader.asn(ip)
+            for i in config.ASNS:
+                if response.autonomous_system_number == int(i):
+                    ip_info['is_cdn'] = True
+        return ip_info
+    except Exception as e:
+        return str(e)
+
+
+def update_ip_to_domain(ip_info):
+    try:
+        url = config.update_domain_url + f'?key={config.key}'
+        r = requests.post(url, data=json.dumps(ip_info))
+        return r.json()
+    except Exception as e:
+        return e
+
+
+if __name__ == '__main__':
+    print(get_ip_info('', 'tshots.t9sec.com'))

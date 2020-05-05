@@ -1,23 +1,31 @@
 from tools.portscan.portscan import PortScan
-from lib.api import get, put_port
+from lib.api import get, put_port, get_ip_info, update_ip_to_domain
 from tools.oneforall.config import logger
 import time
 import datetime
 
 
-def scan(ip, is_scan):
+def scan(ip, is_scan, subdomain):
     port_data = {'code': 0, 'reason': '', 'data': []}
+    ip_info = {'is_cdn': False, 'is_private': False, 'ip': ip}
     try:
-        if not is_scan:
-            app = PortScan(ip)
+        if not ip:
+            ip_info = get_ip_info('', subdomain)
+            if isinstance(ip_info, dict):
+                ip_info['domain'] = subdomain
+                update_ip_to_domain(ip_info)
+            else:
+                raise Exception(str(ip_info))
+        if (not is_scan) and (not ip_info['is_cdn']) and (not ip_info['is_private']):
+            app = PortScan(ip_info['ip'])
             app.run()
             for i in app.data:
-                ip_info = app.data.get(i)
-                ip = ip_info['ip']
-                port = ip_info['port']
-                name = ip_info['name']
-                product = ip_info['product']
-                version = ip_info['version']
+                ip_port_info = app.data.get(i)
+                ip = ip_port_info['ip']
+                port = ip_port_info['port']
+                name = ip_port_info['name']
+                product = ip_port_info['product']
+                version = ip_port_info['version']
                 port_data['data'].append(
                     {"ip": ip, "port": port, "service": name, "product": product, "version": version}
                 )
@@ -42,7 +50,7 @@ def run():
             subdomain = data['data'].get('subdomain')
             is_scan = data['data'].get('is_scan')
             start = datetime.datetime.now()
-            port_data = scan(ip, is_scan)
+            port_data = scan(ip, is_scan, subdomain)
             end = datetime.datetime.now()
             port_data['time'] = (end-start).seconds
             port_data['domain'] = subdomain
